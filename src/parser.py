@@ -6,7 +6,8 @@ class Parser:
 		symbols = self.__prepare(s.replace(' ', ''))
 		return self.__parse(symbols)
 
-	def unparse(self, node: Node) -> str:
+	# функция принимает формулы в виде дерева и возращает её строковое представление
+	def unparse(self, node: Node) -> str: 
 		if (node.var != None):
 			return node.var
 		if (node.operation == '~'):
@@ -25,6 +26,7 @@ class Parser:
 			right_state = '(' + right_state + ')'
 		return left_state + ' ' + node.operation + ' ' + right_state		
 
+	# функция принимает список клозов или дизънктов и возращает строковое предстваление данной формулы
 	def unparse_to_normal_form(self, clauses: [[str]], normal_form_name: str) -> str:
 		inside_op, outside_op = '&', '|'
 		if normal_form_name == 'CNF':
@@ -68,7 +70,7 @@ class Parser:
 						        rightson=self.__parts_parse(operations[i+1:], parts[i+1:])
 						        )
 
-	
+	# функция принимает строковое представление формулы и возращает её представление в виде дерева
 	def __parse(self, symbols: [str]) -> Node:
 		if len(symbols) == 1:
 			return Node(var=symbols[0])

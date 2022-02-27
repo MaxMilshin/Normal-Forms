@@ -1,6 +1,5 @@
 from copy import copy
 
-
 class Node:
 	def __init__(self, 
 		         operation: str = None, 
@@ -13,6 +12,7 @@ class Node:
 		self.rightson = rightson
 		self.var = var
 
+	# функция принимает дерево формулы и возращает дерево эквивалентной ей формулы в NNF форме
 	def convert_tree_to_nnf_tree(self):
 		if (self.var != None):
 			return copy(self)
@@ -33,6 +33,7 @@ class Node:
 			        rightson=self.rightson.convert_tree_to_nnf_tree()
 			        )
 
+	# функция принимает дерево формулы в NNF форме и возращает список клозов(или дизъюнктов, то есть фактически формулу в ДНФ(или КНФ))
 	def convert_tree_to_normal_form(self, normal_form_name: str) -> [[str]]:
 		if (self.var != None):
 			return [[self.var]]
@@ -44,7 +45,7 @@ class Node:
 		left_clauses = self.leftson.convert_tree_to_normal_form(normal_form_name)
 		right_clauses = self.rightson.convert_tree_to_normal_form(normal_form_name)
 		if (self.operation == inside_op):
-			clauses: [[str]] = []
+			clauses: [oredered_set()] = []
 			for left_clause in left_clauses:
 				for right_clause in right_clauses:
 					clauses.append([*left_clause, *right_clause])
